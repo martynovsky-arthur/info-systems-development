@@ -7,9 +7,7 @@ def select_list(_sql, param_list: list):
             raise ValueError('Не удалось подключиться')
         else:
             cursor.execute(_sql, param_list)
-            result = cursor.fetchall()
-            print(f'{result = }')
-            return result
+            return cursor.fetchall()
 
 def select_dict(_sql, user_input: dict):
     return select_list(_sql, list(user_input.values()))

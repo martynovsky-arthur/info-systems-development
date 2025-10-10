@@ -20,8 +20,7 @@ class DBContextManager:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type:
-            print(exc_type)
-            print(exc_val)
+            print(exc_type, exc_val)
         if self.cursor:
             if exc_type:
                 self.conn.rollback()

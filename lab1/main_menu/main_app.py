@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session
-from bp_query.query_route import query_bp
+from bp_query.query_route import products_bp
 import json
 
 
@@ -7,11 +7,11 @@ app = Flask(__name__, template_folder='template', static_folder='../static')
 app.config['SECRET_KEY'] = '1234'
 
 
+app.register_blueprint(products_bp, url_prefix='/product')
+
+
 with open('data/db_config.json') as f:
     app.config['db_config'] = json.load(f)
-
-
-app.register_blueprint(query_bp)
 
 
 @app.route('/')
