@@ -20,10 +20,15 @@ def query_menu():
 def execute_query():
     user_input = request.form
     print('request.form', user_input)
+
+    # Проверка на пустой ввод
+    if not user_input.get('prod_category'):
+        return render_template('error.html', msg='Не указана категория товаров')
+
     result_info = model_route(provider, user_input)
     if result_info.status:
         product = result_info.result
-        prod_title = 'Результат от model_route'
+        prod_title = 'Результат поиска'
         return render_template('query_result.html', prod_title=prod_title, products=product)
     else:
-        return 'Что-то пошло не так'
+        return render_template('error.html', msg=result_info.err_message)

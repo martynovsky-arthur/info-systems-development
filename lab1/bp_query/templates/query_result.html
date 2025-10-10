@@ -2,36 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результаты поиска</title>
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>🏪 SUPERMARKET</h1>
-        <h2>{{ prod_title }}</h2>
+        <div class="window-header">
+            SUPERMARKET - Результаты поиска
+        </div>
+        <div class="window-content">
+            <h2>{{ prod_title }}</h2>
 
-        {% if products %}
-        <table>
-            <tr class="tab_title">
-                <td>Название</td>
-                <td>Единица измерения</td>
-                <td>Стоимость</td>
-            </tr>
-            {% for product in products %}
-            <tr>
-                <td>{{ product[0] }}</td>
-                <td>{{ product[1] }}</td>
-                <td>{{ product[2] }} ₽</td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% else %}
-        <p class="center">Товары в данной категории не найдены</p>
-        {% endif %}
+            {% if products %}
+            <table>
+                <tr class="tab_title">
+                    <td>Название</td>
+                    <td>Единица измерения</td>
+                    <td>Стоимость</td>
+                </tr>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product[0] }}</td>
+                    <td>{{ product[1] }}</td>
+                    <td>{{ product[2] }} руб.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="center">
+                Найдено записей: {{ products|length }}
+            </div>
+            {% else %}
+            <div class="center">
+                <p>Товары в данной категории не найдены</p>
+            </div>
+            {% endif %}
 
-        <div class="center">
-            <a href="{{ url_for('main_menu') }}" class="back-link">← Вернуться в главное меню</a>
+            <hr>
+
+            <div class="center">
+                <a href="{{ url_for('main_menu') }}" class="back-link">В главное меню</a>
+            </div>
         </div>
     </div>
 </body>

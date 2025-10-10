@@ -2,21 +2,25 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главное меню</title>
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>🏪 SUPERMARKET</h1>
+        <div class="window-header">
+            SUPERMARKET - Главное меню
+        </div>
+        <div class="window-content">
+            <h2>Выберите действие:</h2>
 
-        <a href="{{ url_for('query_bp.query_menu') }}" class="menu-link">
-            Поиск товаров
-        </a>
+            <a href="{{ url_for('query_bp.query_menu') }}" class="menu-link">
+                &gt; Поиск товаров по категории
+            </a>
 
-        <a href="{{ url_for('exit_system') }}" class="menu-link exit-link">
-            Выход
-        </a>
+            <a href="{{ url_for('exit_system') }}" class="menu-link exit-link">
+                &gt; Выход из системы
+            </a>
+        </div>
     </div>
 </body>
 </html>

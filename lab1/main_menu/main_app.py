@@ -24,7 +24,7 @@ def main_menu():
 @app.route('/exit')
 def exit_system():
     session.clear()
-    return "👋 До свидания!"
+    return render_template('error.html', msg='Вы успешно вышли из системы. До свидания!')
 
 
 if __name__ == '__main__':
