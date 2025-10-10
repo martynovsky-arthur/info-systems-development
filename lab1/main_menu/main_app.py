@@ -7,12 +7,10 @@ app = Flask(__name__, template_folder='template', static_folder='../static')
 app.config['SECRET_KEY'] = '1234'
 
 
-# Загружаем конфигурацию БД
 with open('data/db_config.json') as f:
     app.config['db_config'] = json.load(f)
 
 
-# Регистрируем blueprint и передаем ему конфиг
 app.register_blueprint(query_bp)
 
 
@@ -28,4 +26,8 @@ def exit_system():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5001, debug=True)
+    app.run(
+        host='localhost',
+        port=5001,
+        debug=True,
+    )
