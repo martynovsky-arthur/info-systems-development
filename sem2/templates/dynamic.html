@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица данных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        select, button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        th:hover {
+            background-color: #e9ecef;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .pagination button {
+            background-color: #6c757d;
+        }
+        
+        .pagination button.active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Таблица данных из базы данных</h1>
+        
+        <div class="controls">
+            <select id="tableSelect">
+                <option value="">Выберите таблицу</option>
+                <option value="users">Пользователи</option>
+                <option value="products">Товары</option>
+                <option value="orders">Заказы</option>
+                <!-- Добавьте другие таблицы по необходимости -->
+            </select>
+            
+            <input type="text" id="searchInput" placeholder="Поиск..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            
+            <select id="rowsPerPage">
+                <option value="10">10 строк</option>
+                <option value="25">25 строк</option>
+                <option value="50">50 строк</option>
+                <option value="100">100 строк</option>
+            </select>
+            
+            <button onclick="loadTableData()">Загрузить данные</button>
+            <button onclick="exportToCSV()">Экспорт в CSV</button>
+        </div>
+        
+        <div id="errorMessage" class="error" style="display: none;"></div>
+        
+        <div class="table-container">
+            <div id="loading" class="loading" style="display: none;">Загрузка данных...</div>
+            <table id="dataTable" style="display: none;">
+                <thead>
+                    <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        
+        <div class="pagination" id="pagination" style="display: none;"></div>
+    </div>
+
+    <script>
+        let currentData = [];
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let sortColumn = '';
+        let sortDirection = 'asc';
+
+        // Функция для загрузки данных таблицы
+        async function loadTableData() {
+            const tableName = document.getElementById('tableSelect').value;
+            if (!tableName) {
+                showError('Пожалуйста, выберите таблицу');
+                return;
+            }
+
+            showLoading(true);
+            hideError();
+
+            try {
+                // Отправляем запрос на сервер для получения данных
+                const response = await fetch('/api/get-table-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        table: tableName
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки данных');
+                }
+
+                const data = await response.json();
+                currentData = data;
+                renderTable(data);
+                setupPagination(data.length);
+                
+            } catch (error) {
+                showError('Ошибка при загрузке данных: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Функция для отображения таблицы
+        function renderTable(data) {
+            const tableHeader = document.getElementById('tableHeader');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Очищаем предыдущие данные
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                document.getElementById('dataTable').style.display = 'none';
+                return;
+            }
+
+            // Создаем заголовки таблицы
+            const columns = Object.keys(data[0]);
+            columns.forEach(column => {
+                const th = document.createElement('th');
+                th.textContent = column;
+                th.onclick = () => sortTable(column);
+                tableHeader.appendChild(th);
+            });
+
+            // Заполняем таблицу данными
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = data.slice(start, end);
+
+            paginatedData.forEach(row => {
+                const tr = document.createElement('tr');
+                columns.forEach(column => {
+                    const td = document.createElement('td');
+                    td.textContent = row[column] !== null ? row[column] : 'NULL';
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+
+            document.getElementById('dataTable').style.display = 'table';
+        }
+
+        // Функция для сортировки таблицы
+        function sortTable(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+
+            currentData.sort((a, b) => {
+                let valueA = a[column];
+                let valueB = b[column];
+
+                if (typeof valueA === 'string') {
+                    valueA = valueA.toLowerCase();
+                    valueB = valueB.toLowerCase();
+                }
+
+                if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
+                if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            renderTable(currentData);
+        }
+
+        // Функция для настройки пагинации
+        function setupPagination(totalRows) {
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = '';
+            
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+            
+            if (totalPages <= 1) {
+                paginationDiv.style.display = 'none';
+                return;
+            }
+            
+            paginationDiv.style.display = 'flex';
+
+            // Кнопка "Назад"
+            const prevButton = document.createElement('button');
+            prevButton.textContent = '←';
+            prevButton.disabled = currentPage === 1;
+            prevButton.onclick = () => changePage(currentPage - 1);
+            paginationDiv.appendChild(prevButton);
+
+            // Нумерация страниц
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.className = currentPage === i ? 'active' : '';
+                pageButton.onclick = () => changePage(i);
+                paginationDiv.appendChild(pageButton);
+            }
+
+            // Кнопка "Вперед"
+            const nextButton = document.createElement('button');
+            nextButton.textContent = '→';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.onclick = () => changePage(currentPage + 1);
+            paginationDiv.appendChild(nextButton);
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderTable(currentData);
+            setupPagination(currentData.length);
+        }
+
+        // Функция для экспорта в CSV
+        function exportToCSV() {
+            if (currentData.length === 0) {
+                alert('Нет данных для экспорта');
+                return;
+            }
+
+            const columns = Object.keys(currentData[0]);
+            let csvContent = columns.join(',') + '\n';
+            
+            currentData.forEach(row => {
+                const rowData = columns.map(column => {
+                    let value = row[column];
+                    if (value === null || value === undefined) value = '';
+                    if (typeof value === 'string' && value.includes(',')) {
+                        value = `"${value}"`;
+                    }
+                    return value;
+                });
+                csvContent += rowData.join(',') + '\n';
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'table_export.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Вспомогательные функции
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Обработчики событий
+        document.getElementById('rowsPerPage').addEventListener('change', function() {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1;
+            if (currentData.length > 0) {
+                renderTable(currentData);
+                setupPagination(currentData.length);
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm && currentData.length > 0) {
+                const filteredData = currentData.filter(row => 
+                    Object.values(row).some(value => 
+                        value && value.toString().toLowerCase().includes(searchTerm)
+                    )
+                );
+                renderTable(filteredData);
+                setupPagination(filteredData.length);
+            } else if (currentData.length > 0) {
+                renderTable(currentData);
+                setupPagination(currentData.length);
+            }
+        });
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Можно добавить автоматическую загрузку данных при загрузке страницы
+            // loadTableData();
+        });
+    </script>
+</body>
+</html>

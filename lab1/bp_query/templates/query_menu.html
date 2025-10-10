@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск товаров</title>
+</head>
+<body>
+<center>
+    <h2>Ввод параметров поиска</h2>
+    <p>
+        <form action="{{ url_for('query_bp.execute_query') }}" method="post">
+        <label for="prod_category">Категория продуктов</label>
+        <input type="text" name="prod_category" id="prod_category">
+        <br><br>
+
+        <input type="submit" value="Отправить">
+        </form>
+    </p>
+</center>
+</body>
+</html>
