@@ -12,11 +12,4 @@ def select_list(_sql, param_list: list):
             return result
 
 def select_dict(_sql, user_input: dict):
-    # user_list = []
-    # for _, value in user_input:
-    #     user_list.append(value)
-    # print(f'{user_list = }')
-    # result = select_list(_sql, user_list)
-    # return result
-
     return select_list(_sql, list(user_input.values()))
