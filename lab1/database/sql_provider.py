@@ -8,5 +8,4 @@ class SQLProvider:
             self.scripts[file] = _sql
 
     def get(self, file):
-        _sql = self.scripts[file]
-        return _sql
+        return self.scripts[file]
