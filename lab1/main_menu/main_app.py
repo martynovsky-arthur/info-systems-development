@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = '1234'
 
 
 # Загружаем конфигурацию БД
-with open('../data/db_config.json') as f:
+with open('data/db_config.json') as f:
     app.config['db_config'] = json.load(f)
 
 

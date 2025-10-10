@@ -2,30 +2,37 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результаты поиска</title>
-    <link href="{{ url_for('static', filename='sem1.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
-<center>
-    <h2>{{prod_title}}</h2>
-    <p>
-        <table border="1">
-        <tr class="tab_title">
-            <td>Название</td>
-            <td>Единица измерения</td>
-            <td>Стоимость</td>
-        </tr>
-    {% for product in products %}
-        <tr>
-            <td>{{product[0]}}</td>
-            <td>{{product[1]}}</td>
-            <td>{{product[2]}}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    </p>
-    <br>
-    <a href="{{ url_for('main_menu') }}">Вернуться в главное меню</a>
-</center>
+    <div class="container">
+        <h1>🏪 SUPERMARKET</h1>
+        <h2>{{ prod_title }}</h2>
+
+        {% if products %}
+        <table>
+            <tr class="tab_title">
+                <td>Название</td>
+                <td>Единица измерения</td>
+                <td>Стоимость</td>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>{{ product[0] }}</td>
+                <td>{{ product[1] }}</td>
+                <td>{{ product[2] }} ₽</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="center">Товары в данной категории не найдены</p>
+        {% endif %}
+
+        <div class="center">
+            <a href="{{ url_for('main_menu') }}" class="back-link">← Вернуться в главное меню</a>
+        </div>
+    </div>
 </body>
 </html>
