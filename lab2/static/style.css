@@ -291,6 +291,7 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .product-card:hover {
@@ -323,7 +324,7 @@ hr {
     font-weight: bold;
     color: #006400;
     font-size: 14pt;
-    min-width: 80px;
+    min-width: 100px;
     text-align: right;
 }
 
@@ -337,7 +338,7 @@ hr {
     font-size: 11pt;
     cursor: pointer;
     border-radius: 3px;
-    margin-left: 15px;
+    white-space: nowrap;
 }
 
 .add-to-cart-btn:hover {
