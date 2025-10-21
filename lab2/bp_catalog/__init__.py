@@ -1,34 +1,56 @@
 # Реализация сценария "каталог"
 
-
-from flask import Blueprint, render_template, request
-from model.route import model_route
-from database.sql_provider import SQLProvider
 import os
 
+from database.sql_provider import SQLProvider
+from flask import Blueprint, render_template, request
+from model import model_route
 
-catalog_bp = Blueprint('products_bp', __name__, template_folder='templates')
+
+bp_catalog = Blueprint('bp_catalog', __name__, template_folder='templates')
 
 _provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
-@catalog_bp.route('/', methods=['GET'])
-def query_menu():
-    return render_template('query_menu.html')
+@bp_catalog.route('/', methods=['GET', 'POST'])
+def catalog_page():
 
+    result = model_route(_provider.get('category.sql'))
 
-@catalog_bp.route('/', methods=['POST'])
-def execute_query():
-    user_input = request.form
-    print('request.form', user_input)
+    if result.status == False:
+        return render_template('error.html', msg=result.err_message)
 
-    if not user_input.get('prod_category'):
-        return render_template('error.html', msg='Не указана категория товаров')
+    categories = result.result
 
-    result_info = model_route(_provider, user_input)
-    if result_info.status:
-        product = result_info.result
-        prod_title = 'Результат поиска'
-        return render_template('query_result.html', prod_title=prod_title, products=product)
+    # Определяем активную категорию
+    active_category_id = None
+    products = []
+
+    if request.method == 'POST':
+        # Получаем категорию из POST запроса
+        category_id = request.form.get('category_id')
+        if category_id:
+            active_category_id = int(category_id)
     else:
-        return render_template('error.html', msg=result_info.err_message)
+        # Для GET запроса выбираем первую категорию по умолчанию
+        if categories:
+            active_category_id = categories[0][0]  # первый столбец - category_id
+
+    # Получаем товары для активной категории
+    if active_category_id:
+        result = model_route(
+            _provider.get('product.sql'),
+            {'category_id': active_category_id},
+        )
+
+        if result.status == False:
+            return render_template('error.html', msg=result.err_message)
+
+        products = result.result
+
+    return render_template(
+        'catalog.html',
+        categories=categories,
+        products=products,
+        active_category_id=active_category_id
+    )

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session
-from bp_catalog import catalog_bp
+from bp_catalog import bp_catalog
 import json
 
 
@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='template', static_folder='../static')
 app.config['SECRET_KEY'] = '1234'
 
 
-app.register_blueprint(catalog_bp, url_prefix='/')
+app.register_blueprint(bp_catalog, url_prefix='/')
 
 
 with open('data/db_config.json') as f:

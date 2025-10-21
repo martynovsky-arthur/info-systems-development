@@ -1,8 +1,7 @@
 # Реализация сценария "меню запросов"
 
-
 from flask import Blueprint, render_template, request
-from model.route import model_route
+from model import model_route
 from database.sql_provider import SQLProvider
 import os
 
@@ -20,7 +19,7 @@ def query_menu():
 @catalog_bp.route('/', methods=['POST'])
 def execute_query():
     user_input = request.form
-    print('request.form', user_input)
+    # print('request.form', user_input)
 
     if not user_input.get('prod_category'):
         return render_template('error.html', msg='Не указана категория товаров')
