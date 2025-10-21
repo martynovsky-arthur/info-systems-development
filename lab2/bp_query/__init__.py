@@ -25,7 +25,8 @@ def execute_query():
     if not user_input.get('prod_category'):
         return render_template('error.html', msg='Не указана категория товаров')
 
-    result_info = model_route(_provider, user_input)
+    _sql = _provider.get('product.sql')
+    result_info = model_route(_sql, user_input)
     if result_info.status:
         product = result_info.result
         prod_title = 'Результат поиска'
