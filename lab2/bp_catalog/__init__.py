@@ -1,4 +1,4 @@
-# Реализация сценария "меню запросов"
+# Реализация сценария "каталог"
 
 
 from flask import Blueprint, render_template, request

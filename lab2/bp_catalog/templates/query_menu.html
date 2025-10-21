@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск товаров</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="window-header">
+            SUPERMARKET - Меню запроса
+        </div>
+        <div class="window-content">
+            <h2>Параметры поиска</h2>
+
+            <form action="{{ url_for('products_bp.execute_query') }}" method="post">
+                <div class="form-group">
+                    <label for="prod_category">Категория:</label>
+                    <input type="text" name="prod_category" id="prod_category">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Найти">
+                </div>
+            </form>
+
+            <hr>
+
+            <div class="center">
+                <a href="{{ url_for('main_menu') }}" class="back-link">Вернуться в главное меню</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

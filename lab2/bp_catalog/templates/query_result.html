@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="window-header">
+            SUPERMARKET - Результаты запроса
+        </div>
+        <div class="window-content">
+            <h2>{{ prod_title }}</h2>
+
+            {% if products %}
+            <table>
+                <tr class="tab_title">
+                    <td>Название</td>
+                    <td>Единица измерения</td>
+                    <td>Стоимость</td>
+                </tr>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product[0] }}</td>
+                    <td>{{ product[1] }}</td>
+                    <td>{{ product[2] }} руб.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="center">
+                Найдено записей: {{ products|length }}
+            </div>
+            {% else %}
+            <div class="center">
+                <p>Товары в данной категории не найдены</p>
+            </div>
+            {% endif %}
+
+            <hr>
+
+            <div class="center">
+                <a href="{{ url_for('main_menu') }}" class="back-link">Вернуться в главное меню</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
