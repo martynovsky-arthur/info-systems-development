@@ -5,4 +5,4 @@ select
 from
     product
 where
-    prod_category = (%s);
+    category_id = (%s);
