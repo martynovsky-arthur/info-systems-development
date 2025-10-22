@@ -2,6 +2,7 @@
 
 import os
 
+from access import group_required, login_required
 from database.sql_provider import SQLProvider
 from flask import Blueprint, render_template, request
 from model import model_route

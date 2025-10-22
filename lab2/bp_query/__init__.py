@@ -1,22 +1,28 @@
 # Реализация сценария "меню запросов"
 
-from flask import Blueprint, render_template, request
-from model import model_route
-from database.sql_provider import SQLProvider
 import os
 
+from access import group_required, login_required
+from database.sql_provider import SQLProvider
+from flask import Blueprint, render_template, request
+from model import model_route
 
-catalog_bp = Blueprint('products_bp', __name__, template_folder='templates')
+
+bp_query = Blueprint('bp_query', __name__, template_folder='templates')
 
 _provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
-@catalog_bp.route('/', methods=['GET'])
+@login_required
+@group_required
+@bp_query.route('/', methods=['GET'])
 def query_menu():
     return render_template('query_menu.html')
 
 
-@catalog_bp.route('/', methods=['POST'])
+@login_required
+@group_required
+@bp_query.route('/', methods=['POST'])
 def execute_query():
     user_input = request.form
     # print('request.form', user_input)
