@@ -13,11 +13,12 @@ from flask import (
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        print('in wrapper')
         if 'user_group' in session:
             return func(*args, **kwargs)
         else:
-            return redirect(url_for('auth_bp.auth_index'))
-    return wrapper()
+            return redirect(url_for('bp_catalog.catalog_page'))
+    return wrapper
 
 
 def group_required(func):

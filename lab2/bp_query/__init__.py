@@ -13,16 +13,16 @@ bp_query = Blueprint('bp_query', __name__, template_folder='templates')
 _provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
+@bp_query.route('/query', methods=['GET'])
 @login_required
-@group_required
-@bp_query.route('/', methods=['GET'])
+# @group_required
 def query_menu():
     return render_template('query_menu.html')
 
 
+@bp_query.route('/query', methods=['POST'])
 @login_required
-@group_required
-@bp_query.route('/', methods=['POST'])
+# @group_required
 def execute_query():
     user_input = request.form
     # print('request.form', user_input)

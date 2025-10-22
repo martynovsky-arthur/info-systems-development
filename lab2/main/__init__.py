@@ -1,17 +1,25 @@
-from flask import Flask, render_template, session
-from bp_catalog import bp_catalog
 import json
 
+from bp_catalog import bp_catalog
+from bp_query import bp_query
 
-app = Flask(__name__, template_folder='template', static_folder='../static')
-app.config['SECRET_KEY'] = '1234'
-
-
-app.register_blueprint(bp_catalog, url_prefix='/')
+from flask import Flask, render_template, session
 
 
-with open('data/db_config.json') as f:
-    app.config['db_config'] = json.load(f)
+
+def create_app():
+    app = Flask(__name__, template_folder='template', static_folder='../static')
+    app.config['SECRET_KEY'] = '1234'
+
+
+    app.register_blueprint(bp_catalog, url_prefix='/')
+    app.register_blueprint(bp_query, url_prefix='/')
+
+
+    with open('data/db_config.json') as f:
+        app.config['db_config'] = json.load(f)
+
+    return app
 
 
 # @app.route('/exit')
@@ -21,7 +29,8 @@ with open('data/db_config.json') as f:
 
 
 if __name__ == '__main__':
-    app.run(
+
+    create_app().run(
         host='localhost',
         port=5001,
         debug=True,
