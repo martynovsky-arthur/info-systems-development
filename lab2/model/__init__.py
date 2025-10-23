@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from database.select import select_dict
+from database.sql_provider import SQLProvider
+
 
 @dataclass
 class ResultInfo:
@@ -7,8 +9,10 @@ class ResultInfo:
     status: bool
     err_message: str
 
-def model_route(_sql: str, user_input: dict | None = None) -> ResultInfo:
+
+def model_route(provider: SQLProvider, sql_file_name: str, user_input: dict) -> ResultInfo:
     err_message = ''
+    _sql = provider.get(sql_file_name)
     result = select_dict(_sql, user_input)
     if result:
         return ResultInfo(result=result, status=True, err_message=err_message)
