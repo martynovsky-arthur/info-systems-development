@@ -13,11 +13,10 @@ from flask import (
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        print('in wrapper')
-        if 'user_group' in session:
+        if 'user_id' in session:
             return func(*args, **kwargs)
         else:
-            return redirect(url_for('main_menu'))
+            return redirect(url_for('bp_auth.get_login'))
     return wrapper
 
 
@@ -25,11 +24,11 @@ def group_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if 'user_group' in session:
-            access = current_app.config['db_access']
+            access = current_app.config.get('db_access', {})
             user_request = request.endpoint.split('.')[0]
 
-            print(f'{request.endpoint = }')
-            print(f'{user_request = }')
+            # print(f'{request.endpoint = }')
+            # print(f'{user_request = }')
 
             user_role = session.get('user_group')
             if user_role in access and user_request in access[user_role]:

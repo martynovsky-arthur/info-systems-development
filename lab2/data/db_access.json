@@ -1,0 +1,9 @@
+{
+    "admin": [
+        "bp_query"
+    ],
+    "manager": [
+        "bp_query"
+    ],
+    "cashier": []
+}
