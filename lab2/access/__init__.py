@@ -17,7 +17,7 @@ def login_required(func):
         if 'user_group' in session:
             return func(*args, **kwargs)
         else:
-            return redirect(url_for('bp_catalog.catalog_page'))
+            return redirect(url_for('main_menu'))
     return wrapper
 
 
