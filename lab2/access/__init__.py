@@ -35,5 +35,5 @@ def group_required(func):
                 return func(*args, **kwargs)
             else:
                 return render_template('error.html', msg='У вас нет прав на эту функциональность')
-        return render_template('error.html', msg='Необходимо авторизоваться')
+        return redirect(url_for('bp_auth.get_login'))
     return wrapper
