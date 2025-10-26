@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Поиск товаров{% endblock %}
-
+{% block title %}Форма ввода{% endblock %}
 {% block header %}SUPERMARKET - Ввод параметров{% endblock %}
 
 {% block content %}
-    <h2>Параметры поиска</h2>
     <form action="{{ url_for('bp_query.execute_query') }}" method="post">
         <div class="form-group">
             <label for="prod_category">Категория:</label>

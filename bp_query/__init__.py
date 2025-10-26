@@ -33,5 +33,4 @@ def execute_query():
         return render_template('error.html', msg=result_info.err_message)
 
     product = result_info.result
-    prod_title = 'Результат поиска'
-    return render_template('query_result.html', prod_title=prod_title, products=product)
+    return render_template('query_result.html', products=product)

@@ -1,42 +1,33 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Авторизация</title>
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <div class="window-header">
-            SUPERMARKET - Авторизация
-        </div>
-        <div class="window-content">
-            <h2>Вход в систему</h2>
+{% extends "base.html" %}
 
-            {% if error %}
-            <div class="error-box">
-                <div class="error-message">
-                    {{ error }}
-                </div>
-            </div>
-            {% endif %}
+{% block title %}Авторизация{% endblock %}
 
-            <form method="POST" action="{{ url_for('bp_auth.post_login') }}">
-                <div class="form-group">
-                    <label for="login">Логин:</label>
-                    <input type="text" id="login" name="login" required>
-                </div>
+{% block header %}SUPERMARKET - Вход в систему{% endblock %}
 
-                <div class="form-group">
-                    <label for="password">Пароль:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Войти">
-                </div>
-            </form>
+{% block content %}
+    {% if error %}
+    <div class="error-box">
+        <div class="error-message">
+            {{ error }}
         </div>
     </div>
-</body>
-</html>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('bp_auth.post_login') }}">
+        <div class="form-group">
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Войти">
+        </div>
+    </form>
+{% endblock %}
+
+{% block navigation %}{% endblock %}
