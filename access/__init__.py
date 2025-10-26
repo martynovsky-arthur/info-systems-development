@@ -13,27 +13,29 @@ from flask import (
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if 'user_id' in session:
-            return func(*args, **kwargs)
-        else:
+        if not 'user_id' in session:
             return redirect(url_for('bp_auth.get_login'))
+        return func(*args, **kwargs)
     return wrapper
 
 
 def group_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if 'user_group' in session:
-            access = current_app.config.get('db_access', {})
-            user_request = request.endpoint.split('.')[0]
+        if not 'user_group' in session:
+            return redirect(url_for('bp_auth.get_login'))
 
-            # print(f'{request.endpoint = }')
-            # print(f'{user_request = }')
+        access = current_app.config.get('db_access', {})
+        user_request = request.endpoint.split('.')[0]
 
-            user_role = session.get('user_group')
-            if user_role in access and user_request in access[user_role]:
-                return func(*args, **kwargs)
-            else:
-                return render_template('error.html', msg='У вас нет прав на эту функциональность')
-        return redirect(url_for('bp_auth.get_login'))
+        # print(f'{request.endpoint = }')
+        # print(f'{user_request = }')
+
+        user_role = session.get('user_group', '')
+
+        if not access.get(user_role, {}).get(user_request, {}):
+            return render_template('error.html', msg='У вас нет прав на эту функциональность')
+
+        return func(*args, **kwargs)
+
     return wrapper
