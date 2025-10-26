@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Результаты{% endblock %}
+{% block title %}Результат{% endblock %}
 
-{% block header %}SUPERMARKET - Результаты запроса{% endblock %}
+{% block header %}SUPERMARKET - Результат запроса{% endblock %}
 
 {% block content %}
     {% if items %}
@@ -30,11 +30,11 @@
 
 {% block navigation %}
     <a href="{{ url_for('bp_query.query_menu') }}" class="back-link">
-        Назад к списку запросов
+        К списку запросов
     </a>
     <br>
 
     <a href="{{ url_for('main_menu') }}" class="back-link">
-        Вернуться на Главную
+        На главную
     </a>
 {% endblock %}
