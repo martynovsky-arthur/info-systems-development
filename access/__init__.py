@@ -33,7 +33,7 @@ def group_required(func):
 
         user_role = session.get('user_group', '')
 
-        if not access.get(user_role, {}).get(user_request, {}):
+        if not user_request in access.get(user_role, []):
             return render_template('error.html', msg='У вас нет прав на эту функциональность')
 
         return func(*args, **kwargs)
