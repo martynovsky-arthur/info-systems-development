@@ -1,0 +1,9 @@
+{% extends "base_form.html" %}
+
+{% block form_fields %}
+    <form action="{{ url_for('bp_query.get_category') }}" method="post">
+        <div class="form-group">
+            <label for="prod_category">Категория</label>
+            <input type="text" name="prod_category" id="prod_category">
+        </div>
+{% endblock %}

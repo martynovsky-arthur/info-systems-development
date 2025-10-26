@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Результаты{% endblock %}
+
+{% block header %}SUPERMARKET - Результаты запроса{% endblock %}
+
+{% block content %}
+    {% if items %}
+        <table>
+            <tr class="tab_title">
+                {% block table_headers %}{% endblock %}
+            </tr>
+            {% for row in items %}
+            <tr>
+                {% for column in row %}
+                    <td>{{ column }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="center">
+            Найдено записей: {{ items|length }}
+        </div>
+    {% else %}
+        <div class="center">
+            <p>По вашему запросу ничего не найдено</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    <a href="{{ url_for('bp_query.query_menu') }}" class="back-link">
+        Назад к списку запросов
+    </a>
+    <br>
+
+    <a href="{{ url_for('main_menu') }}" class="back-link">
+        Вернуться на Главную
+    </a>
+{% endblock %}

@@ -1,17 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Форма ввода{% endblock %}
-{% block header %}SUPERMARKET - Ввод параметров{% endblock %}
+{% block title %}Меню запросов{% endblock %}
+
+{% block header %}SUPERMARKET - Меню запросов{% endblock %}
 
 {% block content %}
-    <form action="{{ url_for('bp_query.execute_query') }}" method="post">
-        <div class="form-group">
-            <label for="prod_category">Категория:</label>
-            <input type="text" name="prod_category" id="prod_category">
-        </div>
-
-        <div class="form-group">
-            <input type="submit" value="Найти">
-        </div>
-    </form>
+    <a href="{{ url_for('bp_query.get_category') }}" class="menu-link">
+        &gt; Каталог товаров
+    </a>
 {% endblock %}

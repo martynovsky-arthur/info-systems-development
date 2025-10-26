@@ -2,7 +2,7 @@
 
 import os
 
-from access import group_required
+from access import login_required, group_required
 from database.sql_provider import SQLProvider
 from flask import Blueprint, render_template, request
 from model import model_route
@@ -14,23 +14,26 @@ query_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @bp_query.route('/', methods=['GET'])
-@group_required
+@login_required
 def query_menu():
     return render_template('query_menu.html')
 
 
-@bp_query.route('/', methods=['POST'])
+@bp_query.route('/category', methods=['GET', 'POST'])
 @group_required
-def execute_query():
+def get_category():
+
+    if request.method == 'GET':
+        return render_template('category_form.html')
+
     user_input = request.form
 
     if not user_input.get('prod_category'):
         return render_template('error.html', msg='Не указана категория товаров')
 
-    result_info = model_route(query_provider, 'product.sql', user_input)
+    result_info = model_route(query_provider, 'category.sql', user_input)
 
     if not result_info.status:
         return render_template('error.html', msg=result_info.err_message)
 
-    product = result_info.result
-    return render_template('query_result.html', products=product)
+    return render_template('category_result.html', items=result_info.result)

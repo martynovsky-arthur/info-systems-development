@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Форма ввода{% endblock %}
+
+{% block header %}SUPERMARKET - Ввод параметров{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% block form_fields %}{% endblock %}
+
+        <div class="form-group">
+            <input type="submit" value="Выполнить">
+        </div>
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <a href="{{ url_for('bp_query.query_menu') }}" class="back-link">
+        К меню запросов
+    </a>
+    <br>
+
+    <a href="{{ url_for('main_menu') }}" class="back-link">
+        На главную
+    </a>
+{% endblock %}
