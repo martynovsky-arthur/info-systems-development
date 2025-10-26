@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SUPERMARKET{% endblock %}</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="window-header">
+            {% block header %}SUPERMARKET{% endblock %}
+        </div>
+        <div class="window-content">
+            {% block content %}{% endblock %}
+
+            <hr>
+
+            <div class="center">
+                {% block navigation %}
+                <a href="{{ url_for('main_menu') }}" class="back-link">Вернуться на Главную</a>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
