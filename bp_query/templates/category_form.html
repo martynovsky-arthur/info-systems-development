@@ -1,5 +1,11 @@
 {% extends "base_form.html" %}
 
+{% block description %}
+<h3>Поиск товаров по категории</h3>
+<p>Введите код категории товаров для получения списка продукции в данной категории.</p>
+<p>Примеры категорий: 1 - Молочные продукты, 2 - Хлеб и выпечка, 3 - Мясо и птица</p>
+{% endblock %}
+
 {% block form_fields %}
     <form action="{{ url_for('bp_query.get_category') }}" method="post">
         <div class="form-group">
