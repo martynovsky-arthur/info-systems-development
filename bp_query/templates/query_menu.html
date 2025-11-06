@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Меню запросов{% endblock %}
+{% block title %}Запросы{% endblock %}
 
-{% block header %}SUPERMARKET - Меню запросов{% endblock %}
+{% block header %}SUPERMARKET - Запросы{% endblock %}
 
 {% block content %}
     <a href="{{ url_for('bp_query.get_category') }}" class="menu-link">
-        &gt; Каталог товаров
+        &gt; Товары по категории
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_query.query_menu') }}" class="menu-link">
+        &gt; Заказы
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_query.query_menu') }}" class="menu-link">
+        &gt; Поставщики
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_query.query_menu') }}" class="menu-link">
+        &gt; Сотрудники
     </a>
 {% endblock %}
