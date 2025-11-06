@@ -1,9 +1,9 @@
 {
     "admin": [
-        "bp_query.get_category"
+        "/query/category"
     ],
     "manager": [
-        "bp_query.get_category"
+        "/query/category"
     ],
     "cashier": []
 }

@@ -26,10 +26,7 @@ def group_required(func):
             return redirect(url_for('bp_auth.get_login'))
 
         access = current_app.config.get('db_access', {})
-        user_request = request.endpoint
-
-        # print(f'{request.endpoint = }')
-        # print(f'{user_request = }')
+        user_request = str(request.url_rule)
 
         user_role = session.get('user_group', '')
 
