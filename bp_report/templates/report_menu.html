@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Отчеты{% endblock %}
+{% block header %}SUPERMARKET - Отчеты{% endblock %}
+
+{% block content %}
+    <!-- loopback -->
+    <a href="{{ url_for('bp_report.report_menu') }}" class="menu-link">
+        &gt; Выручка
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_report.report_menu') }}" class="menu-link">
+        &gt; Налоги
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_report.report_menu') }}" class="menu-link">
+        &gt; Объём продаж
+    </a>
+
+    <!-- loopback -->
+    <a href="{{ url_for('bp_report.report_menu') }}" class="menu-link">
+        &gt; Поставки
+    </a>
+{% endblock %}

@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Главное меню{% endblock %}
+{% block title %}Главная{% endblock %}
 
-{% block header %}SUPERMARKET - Главное меню{% endblock %}
+{% block header %}SUPERMARKET - Главная{% endblock %}
 
 {% block content %}
     <a href="{{ url_for('bp_query.query_menu') }}" class="menu-link">
-        &gt; Поиск товаров по категории
+        &gt; Запросы
+    </a>
+
+    <a href="{{ url_for('bp_report.report_menu') }}" class="menu-link">
+        &gt; Отчеты
     </a>
 
     <a href="{{ url_for('exit_system') }}" class="menu-link exit-link">
-        &gt; Выход из системы
+        &gt; Выход
     </a>
 {% endblock %}
 
