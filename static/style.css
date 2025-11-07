@@ -357,3 +357,73 @@ hr {
     padding: 40px;
     color: #666;
 }
+
+/* Стили для отчетов */
+.report-description {
+    background: #F8F8F8;
+    border: 1px solid #D4D0C8;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
+
+.report-description h3 {
+    color: #003366;
+    margin-top: 0;
+    font-size: 14pt;
+}
+
+.report-description p {
+    color: #333;
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+.report-info {
+    font-weight: bold;
+    color: #003366;
+    margin: 10px 0;
+}
+
+/* Сообщение об успехе */
+.success-box {
+    background: #F0F8F0;
+    border: 2px solid #006400;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.success-message {
+    color: #000;
+    font-size: 11pt;
+}
+
+.success-message h2 {
+    color: #006400;
+    margin-top: 0;
+    border-bottom: 1px solid #90EE90;
+}
+
+.success-message p {
+    margin: 10px 0;
+}
+
+/* Кнопки в формах отчетов */
+input[type="submit"][name="action"] {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+input[type="submit"][name="action"]:first-of-type {
+    margin-left: 160px;
+}
+
+input[type="number"] {
+    padding: 3px;
+    width: 200px;
+    border: 1px solid #7F9DB9;
+    background: white;
+    font-family: Tahoma;
+    font-size: 11pt;
+}

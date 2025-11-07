@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ report_name }}{% endblock %}
+{% block header %}SUPERMARKET - {{ report_name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ report_name }}</h2>
+
+    {% if items %}
+        <table>
+            <tr class="tab_title">
+                {% for field in fields %}
+                    <td>{{ field }}</td>
+                {% endfor %}
+            </tr>
+            {% for row in items %}
+            <tr>
+                {% for column in row %}
+                    <td>{{ column }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="center">
+            <p class="report-info">Найдено записей: {{ items|length }}</p>
+        </div>
+    {% else %}
+        <div class="center">
+            <p>По вашему запросу ничего не найдено</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    <a href="{{ url_for('bp_report.handle_report', report_type=report_type) }}" class="back-link">
+        Вернуться к форме
+    </a>
+    <br>
+
+    <a href="{{ url_for('bp_report.report_menu') }}" class="back-link">
+        К меню отчетов
+    </a>
+    <br>
+
+    <a href="{{ url_for('main_menu') }}" class="back-link">
+        На главную
+    </a>
+{% endblock %}

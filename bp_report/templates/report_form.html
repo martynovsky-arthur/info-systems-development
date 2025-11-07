@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ report_name }}{% endblock %}
+{% block header %}SUPERMARKET - {{ report_name }}{% endblock %}
+
+{% block content %}
+    {% if description %}
+    <div class="report-description">
+        <h3>{{ report_name }}</h3>
+        <p>{{ description }}</p>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        <div class="form-group">
+            <label for="month">Месяц</label>
+            <input type="number" id="month" name="month" min="1" max="12" required
+                   placeholder="1-12">
+        </div>
+
+        <div class="form-group">
+            <label for="year">Год</label>
+            <input type="number" id="year" name="year" min="2000" max="2100" required
+                   placeholder="2024">
+        </div>
+
+        <div class="form-group">
+            <input type="submit" name="action" value="Создать">
+            <input type="submit" name="action" value="Посмотреть">
+        </div>
+    </form>
+{% endblock %}
+
+{% block navigation %}
+    <a href="{{ url_for('bp_report.report_menu') }}" class="back-link">
+        К меню отчетов
+    </a>
+    <br>
+
+    <a href="{{ url_for('main_menu') }}" class="back-link">
+        На главную
+    </a>
+{% endblock %}
+
