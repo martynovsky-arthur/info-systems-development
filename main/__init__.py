@@ -19,12 +19,16 @@ app.register_blueprint(bp_query)
 app.register_blueprint(bp_report)
 
 
-with open('data/db_config.json') as f:
+with open('data/db_config.json', encoding='utf-8') as f:
     app.config['db_config'] = json.load(f)
 
 
-with open('data/db_access.json') as f:
+with open('data/db_access.json', encoding='utf-8') as f:
     app.config['db_access'] = json.load(f)
+
+
+with open('data/db_reports.json', 'r', encoding='utf-8') as f:
+    app.config['db_reports'] = json.load(f)
 
 
 @app.route('/')

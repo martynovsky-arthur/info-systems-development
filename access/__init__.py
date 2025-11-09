@@ -30,7 +30,12 @@ def group_required(func):
 
         user_role = session.get('user_group', '')
 
+        if not user_role in access:
+            print(f'{user_role} is unknown.')
+            return render_template('error.html', msg='Неизвестная группа пользователя')
+
         if not user_request in access.get(user_role, []):
+            print(f'{user_role} has no access to {user_request}')
             return render_template('error.html', msg='У вас нет прав на эту функциональность')
 
         return func(*args, **kwargs)

@@ -6,7 +6,6 @@
 {% block content %}
     {% if description %}
     <div class="report-description">
-        <h3>{{ report_name }}</h3>
         <p>{{ description }}</p>
     </div>
     {% endif %}
@@ -21,7 +20,7 @@
         <div class="form-group">
             <label for="year">Год</label>
             <input type="number" id="year" name="year" min="2000" max="2100" required
-                   placeholder="2024">
+                   placeholder="2025">
         </div>
 
         <div class="form-group">
@@ -41,4 +40,3 @@
         На главную
     </a>
 {% endblock %}
-
