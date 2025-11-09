@@ -24,10 +24,12 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Создать"
-                formaction="{{ url_for('bp_report.create_report', report_type=report_type) }}">
-            <input type="submit" value="Посмотреть"
-                formaction="{{ url_for('bp_report.read_report', report_type=report_type) }}">
+            <div class="form-actions">
+                <input type="submit" value="Создать"
+                    formaction="{{ url_for('bp_report.create_report', report_type=report_type) }}">
+                <input type="submit" value="Посмотреть"
+                    formaction="{{ url_for('bp_report.read_report', report_type=report_type) }}">
+            </div>
         </div>
     </form>
 {% endblock %}

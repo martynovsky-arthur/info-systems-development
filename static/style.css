@@ -1,4 +1,4 @@
-/* Основные стили - стиль Windows 2000/XP */
+/* Базовая раскладка */
 body {
     font-family: Tahoma, Geneva, sans-serif;
     background-color: #ECE9D8;
@@ -7,7 +7,6 @@ body {
     font-size: 11pt;
 }
 
-/* Контейнер */
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -16,7 +15,6 @@ body {
     padding: 0;
 }
 
-/* Заголовок окна */
 .window-header {
     background: linear-gradient(to bottom, #0054E3, #0046C7);
     color: white;
@@ -25,7 +23,6 @@ body {
     font-size: 13pt;
 }
 
-/* Контент окна */
 .window-content {
     padding: 20px;
     background: white;
@@ -33,7 +30,7 @@ body {
     margin: 10px;
 }
 
-/* Заголовки */
+/* Заголовки (на всякий случай) */
 h1 {
     color: #003366;
     font-size: 16pt;
@@ -64,7 +61,8 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
     padding: 3px;
     width: 200px;
     border: 1px solid #7F9DB9;
@@ -73,7 +71,7 @@ input[type="password"] {
     font-size: 11pt;
 }
 
-
+/* Кнопки */
 input[type="submit"] {
     padding: 5px 15px;
     background: #F0F0F0;
@@ -82,7 +80,8 @@ input[type="submit"] {
     font-family: Tahoma;
     font-size: 11pt;
     cursor: pointer;
-    margin-left: 160px;
+    margin: 0 5px; /* небольшие отступы по бокам */
+    display: inline-block;
 }
 
 input[type="submit"]:hover {
@@ -92,6 +91,20 @@ input[type="submit"]:hover {
 input[type="submit"]:active {
     background: #D0D0D0;
     border: 1px solid #003C74;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center; /* центрируем кнопки */
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0; /* убираем левый отступ */
+}
+
+/* Центрируем последний блок формы (обычно там кнопки) */
+.window-content form .form-group:last-child {
+    display: flex;
+    justify-content: center;
 }
 
 /* Ссылки меню */
@@ -148,18 +161,12 @@ table td {
     color: #FF0000;
 }
 
-/* Сообщения об ошибках */
+/* Сообщения */
 .error-box {
     background: #F0F0F0;
     border: 2px solid #800000;
     padding: 20px;
     margin: 20px 0;
-}
-
-.error-icon {
-    color: #800000;
-    font-size: 24pt;
-    margin-bottom: 10px;
 }
 
 .error-message {
@@ -168,224 +175,6 @@ table td {
     margin: 15px 0;
 }
 
-/* Центрирование */
-.center {
-    text-align: center;
-}
-
-/* Разделитель */
-hr {
-    border: none;
-    border-top: 1px solid #D4D0C8;
-    margin: 20px 0;
-}
-
-/* Верхняя панель меню */
-.top-menu-bar {
-    background: linear-gradient(to bottom, #0054E3, #0046C7);
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #003366;
-}
-
-.app-title {
-    font-size: 16pt;
-    font-weight: bold;
-}
-
-.login-button {
-    background: #FFD700;
-    color: #000080;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 3px;
-    font-weight: bold;
-    border: 1px solid #FFA500;
-}
-
-.login-button:hover {
-    background: #FFA500;
-}
-
-/* Основной контейнер */
-.main-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 20px auto;
-    background: white;
-    border: 2px solid #0054E3;
-    min-height: 600px;
-}
-
-/* Боковое меню */
-.sidebar {
-    width: 250px;
-    background: #F0F0F0;
-    border-right: 1px solid #D4D0C8;
-}
-
-.sidebar-header {
-    background: #D4D0C8;
-    color: #000;
-    padding: 15px;
-    font-weight: bold;
-    border-bottom: 1px solid #7F9DB9;
-}
-
-.sidebar-content {
-    padding: 10px 0;
-}
-
-.category-link {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    color: #000080;
-    text-decoration: none;
-    border: none;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-    border-bottom: 1px solid #D4D0C8;
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size: 11pt;
-}
-
-.category-link:hover {
-    background: #E0E0E0;
-}
-
-.category-link.active {
-    background: #0054E3;
-    color: white;
-}
-
-/* Основная область контента */
-.main-content {
-    flex: 1;
-    padding: 20px;
-}
-
-.content-header h1 {
-    color: #003366;
-    font-size: 18pt;
-    margin: 0 0 20px 0;
-    border-bottom: 2px solid #0054E3;
-    padding-bottom: 10px;
-}
-
-/* Сетка товаров - теперь один столбец */
-.products-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Карточка товара */
-.product-card {
-    border: 1px solid #D4D0C8;
-    padding: 15px;
-    background: #F8F8F8;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.product-card:hover {
-    border-color: #0054E3;
-    background: #F0F0F0;
-}
-
-.product-info {
-    flex: 1;
-}
-
-.product-name {
-    font-weight: bold;
-    font-size: 12pt;
-    color: #003366;
-    margin-bottom: 8px;
-}
-
-.product-details {
-    display: flex;
-    gap: 20px;
-}
-
-.product-measure {
-    color: #666;
-    font-size: 10pt;
-}
-
-.product-price {
-    font-weight: bold;
-    color: #006400;
-    font-size: 14pt;
-    min-width: 100px;
-    text-align: right;
-}
-
-/* Кнопка "В корзину" */
-.add-to-cart-btn {
-    padding: 8px 15px;
-    background: #0054E3;
-    color: white;
-    border: 1px solid #003C74;
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size: 11pt;
-    cursor: pointer;
-    border-radius: 3px;
-    white-space: nowrap;
-}
-
-.add-to-cart-btn:hover {
-    background: #0046C7;
-}
-
-.add-to-cart-btn:active {
-    background: #003366;
-}
-
-.no-products {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px;
-    color: #666;
-}
-
-/* Стили для отчетов */
-.report-description {
-    background: #F8F8F8;
-    border: 1px solid #D4D0C8;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 3px;
-}
-
-.report-description h3 {
-    color: #003366;
-    margin-top: 0;
-    font-size: 14pt;
-}
-
-.report-description p {
-    color: #333;
-    margin: 5px 0;
-    line-height: 1.5;
-}
-
-.report-info {
-    font-weight: bold;
-    color: #003366;
-    margin: 10px 0;
-}
-
-/* Сообщение об успехе */
 .success-box {
     background: #F0F8F0;
     border: 2px solid #006400;
@@ -399,31 +188,28 @@ hr {
     font-size: 11pt;
 }
 
-.success-message h2 {
-    color: #006400;
-    margin-top: 0;
-    border-bottom: 1px solid #90EE90;
+.center {
+    text-align: center;
 }
 
-.success-message p {
+/* Разделитель */
+hr {
+    border: none;
+    border-top: 1px solid #D4D0C8;
+    margin: 20px 0;
+}
+
+/* Блок описания отчета */
+.report-description {
+    background: #F8F8F8;
+    border: 1px solid #D4D0C8;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
+
+.report-info {
+    font-weight: bold;
+    color: #003366;
     margin: 10px 0;
-}
-
-/* Кнопки в формах отчетов */
-input[type="submit"][name="action"] {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-input[type="submit"][name="action"]:first-of-type {
-    margin-left: 160px;
-}
-
-input[type="number"] {
-    padding: 3px;
-    width: 200px;
-    border: 1px solid #7F9DB9;
-    background: white;
-    font-family: Tahoma;
-    font-size: 11pt;
 }
