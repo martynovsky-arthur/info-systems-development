@@ -57,7 +57,7 @@ def create_report(report_type):
     if not result_create.status:
         return render_template('error.html', msg=f'Ошибка создания отчета: {result_create.err_message}')
 
-    return render_template('error.html', msg=result_create.result[0][0])
+    return render_template('report_create.html', report_type=report_type, message=result_create.result[0][0])
 
 
 @bp_report.route('/<report_type>/read', methods=['POST'])

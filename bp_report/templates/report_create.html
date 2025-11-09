@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ report_name }} — создан{% endblock %}
+{% block header %}SUPERMARKET - {{ report_name }}{% endblock %}
+
+{% block content %}
+    <div class="success-box">
+        <div class="success-message">
+            {{ message }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block navigation %}
+    <a href="{{ url_for('bp_report.handle_report', report_type=report_type) }}" class="back-link">
+        Вернуться к форме
+    </a>
+    <br>
+    <a href="{{ url_for('bp_report.report_menu') }}" class="back-link">
+        К меню отчетов
+    </a>
+    <br>
+    <a href="{{ url_for('main_menu') }}" class="back-link">
+        На главную
+    </a>
+{% endblock %}
