@@ -1,10 +1,9 @@
 {
     "admin": [
         "/query/category",
-        "/report/",
-        "/report/handle/<report_type>",
-        "/report/create/revenue",
-        "/report/read/revenue"
+        "/report/revenue",
+        "/report/revenue/create",
+        "/report/revenue/read"
     ],
     "manager": [
         "/query/category"
