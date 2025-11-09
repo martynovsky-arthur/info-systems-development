@@ -84,7 +84,7 @@ def read_report(report_type):
         return render_template('error.html', msg=result_read.err_message)
 
     return render_template(
-        'report_result.html',
+        'report_read.html',
         report_type=report_type,
         report_name=reports_cfg.get(report_type, {}).get('name', 'Отчет'),
         fields=reports_cfg.get(report_type, {}).get('fields', []),
