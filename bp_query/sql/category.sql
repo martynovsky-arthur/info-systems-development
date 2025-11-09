@@ -5,5 +5,5 @@ select
 from
     product
 where
-    category_id = (%s)
+    prod_category = (%s)
 ;
