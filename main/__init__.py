@@ -3,6 +3,7 @@ import json
 from access import login_required
 
 from bp_auth import bp_auth
+from bp_basket import bp_basket
 from bp_query import bp_query
 from bp_report import bp_report
 
@@ -15,6 +16,7 @@ app.config['SECRET_KEY'] = '1234'
 
 
 app.register_blueprint(bp_auth)
+app.register_blueprint(bp_basket)
 app.register_blueprint(bp_query)
 app.register_blueprint(bp_report)
 
