@@ -21,7 +21,7 @@ def report_menu():
 @bp_report.route('/<report_type>', methods=['GET'])
 @group_required
 def handle_report(report_type):
-    reports_cfg = current_app.config.get('db_reports', {})
+    reports_cfg = current_app.config.get('reports', {})
 
     if not report_type in reports_cfg:
         return render_template('error.html', msg='Неизвестный тип отчета')
@@ -37,7 +37,7 @@ def handle_report(report_type):
 @bp_report.route('/<report_type>/create', methods=['POST'])
 @group_required
 def create_report(report_type):
-    reports_cfg = current_app.config.get('db_reports', {})
+    reports_cfg = current_app.config.get('reports', {})
 
     if not report_type in reports_cfg:
         return render_template('error.html', msg='Неизвестный тип отчета')
@@ -63,7 +63,7 @@ def create_report(report_type):
 @bp_report.route('/<report_type>/read', methods=['POST'])
 @group_required
 def read_report(report_type):
-    reports_cfg = current_app.config.get('db_reports', {})
+    reports_cfg = current_app.config.get('reports', {})
 
     if not report_type in reports_cfg:
         return render_template('error.html', msg='Неизвестный тип отчета')

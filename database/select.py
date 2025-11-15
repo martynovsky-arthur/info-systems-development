@@ -16,9 +16,9 @@ def select_list(_sql: str, param_list: list):
 
 def select_dict(_sql, user_input: dict):
     user_list = list(user_input.values())
-    print(f'{user_list = }')
+    print(f'{__name__ = }: {user_list = }')
 
     result_list, schema = select_list(_sql, user_list)
-    print(f'{schema = }')
+    print(f'{__name__ = }: {schema = }')
 
     return [dict(zip(schema, item)) for item in result_list]

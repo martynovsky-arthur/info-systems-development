@@ -25,12 +25,16 @@ with open('data/db_config.json', encoding='utf-8') as f:
     app.config['db_config'] = json.load(f)
 
 
-with open('data/db_access.json', encoding='utf-8') as f:
-    app.config['db_access'] = json.load(f)
+with open('data/access_config.json', encoding='utf-8') as f:
+    app.config['access'] = json.load(f)
 
 
-with open('data/db_reports.json', 'r', encoding='utf-8') as f:
-    app.config['db_reports'] = json.load(f)
+with open('data/reports_config.json', 'r', encoding='utf-8') as f:
+    app.config['reports'] = json.load(f)
+
+
+with open('data/cache_config.json', 'r', encoding='utf-8') as f:
+    app.config['cache'] = json.load(f)
 
 
 @app.route('/')
