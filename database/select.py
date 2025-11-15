@@ -19,8 +19,6 @@ def select_dict(_sql, user_input: dict):
     print(f'{user_list = }')
 
     result_list, schema = select_list(_sql, user_list)
+    print(f'{schema = }')
 
-    result_dict = [dict(zip(schema, item)) for item in result_list]
-    print(f'{result_dict = }')
-
-    return result_dict
+    return [dict(zip(schema, item)) for item in result_list]

@@ -213,3 +213,93 @@ hr {
     color: #003366;
     margin: 10px 0;
 }
+
+/* --- Стили для корзины --- */
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Сумма заказа в корзине */
+.basket-summary {
+    text-align: right;
+    font-size: 14pt;
+    font-weight: bold;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid #7F9DB9;
+    background: #F0F8FF;
+    color: #0054E3;
+}
+
+/* Блок корзины сверху */
+.basket-box {
+    background: #FAFAFA;
+    border: 1px solid #D4D0C8;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+}
+
+/* Карточка товара: компактно и читаемо */
+.item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #D4D0C8;
+    background: #F8F8F8;
+}
+
+.item-main { flex: 1; min-width: 0; }
+
+.item-title {
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 4px;
+}
+
+.item-meta {
+    color: #555;
+    font-size: 10pt;
+}
+
+.item-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 140px;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #0054E3;
+    font-size: 12pt;
+}
+
+.item-side form { margin: 0; }
+
+/* Кнопки действий в корзине — в одну строку */
+.basket-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 10px 0;
+}
+
+/* Красная кнопка «Очистить корзину» */
+input[type="submit"].btn-danger {
+    background: #FFE9E9;
+    border: 1px solid #800000;
+    color: #800000;
+}
+input[type="submit"].btn-danger:hover {
+    background: #FFD6D6;
+}
+input[type="submit"].btn-danger:active {
+    background: #FFC6C6;
+}

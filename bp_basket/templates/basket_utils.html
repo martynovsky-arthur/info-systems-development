@@ -1,26 +1,20 @@
 {% macro render_item(item, show_amount=False, show_form=False) %}
-
-<div style="border-style: solid; border-color: black; margin: 5px">
-    <p>
-        <span>Название</span>
-        <span style="color:blue">{{item['prod_name']}}</span>
-        <span>Цена</span>
-        <span style="color:blue">{{item['prod_price']}}</span><br>
-    </p>
-    {% if show_amount %}
-    <p>
-        <span>Количество</span>
-        <span style="...">{{item['amount']}}</span>
-    </p>
-    {% endif %}
-
-    {% if show_form %}
-    <div>
-        <form action="{{ url_for('bp_basket.add_to_basket', prod_id=item['prod_id']) }}" method="POST">
-            <input type="hidden" name="prod_id" value="{{item['prod_id']}}">
-            <input style="color:red" type="submit" value="Купить">
-        </form>
+<div class="item-card">
+    <div class="item-main">
+        <div class="item-title">{{ item['prod_name'] }}</div>
+        <div class="item-meta">
+            {% if show_amount %}{{ item['amount'] }}{% endif %}
+        </div>
     </div>
-    {% endif %}
+
+    <div class="item-side">
+        <div class="item-price">{{ item['prod_price'] }} руб.</div>
+        {% if show_form %}
+        <form action="{{ url_for('bp_basket.add_to_basket', prod_id=item['prod_id']) }}" method="POST">
+            <input type="hidden" name="prod_id" value="{{ item['prod_id'] }}">
+            <input type="submit" value="В корзину">
+        </form>
+        {% endif %}
+    </div>
 </div>
 {% endmacro %}

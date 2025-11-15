@@ -17,8 +17,6 @@ def basket_menu():
     basket_count = session.get('basket', {})  # словарь {prod_id(str): amount(int)}
 
     tmp = {str(product.get('prod_id')): product for product in products}
-    print(f'{basket_count = }')
-    print(f'{tmp = }')
 
     basket_info = {}
     for prod_id, amount in basket_count.items():
@@ -26,18 +24,17 @@ def basket_menu():
         prod_data.update({'amount': amount})
         basket_info.update({prod_id: prod_data})
 
-    print(f'{basket_info = }')
+    total_price = sum(
+        float(item.get('prod_price', '0')) * item['amount']
+        for item in basket_info.values()
+    )
 
-    # Подсчет общей суммы
-    total_price = 0.0
-    for item in basket_info.values():
-        price = float(item.get('prod_price', '0'))
-        total_price += price * item['amount']
-
-    return render_template('basket_order_list.html',
-                           items=products,
-                           basket=basket_info,
-                           total_price=total_price)
+    return render_template(
+        'basket_order_list.html',
+        items=products,
+        basket=basket_info,
+        total_price=total_price,
+    )
 
 
 @bp_basket.route('/add/<string:prod_id>', methods=['POST'])
