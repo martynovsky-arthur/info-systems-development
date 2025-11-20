@@ -1,14 +1,24 @@
-from dataclasses import dataclass
-from database.transaction import Transaction
-from database.sql_provider import SQLProvider
 from database.DBcm import DBContextManager
+from database.sql_provider import SQLProvider
 
 
-@dataclass
-class ResultInfo:
-    result: tuple
-    status: bool
-    err_message: str
+class _Transaction:
+    def __init__(self, dbcm: DBContextManager, provider: SQLProvider):
+        self._dbcm = dbcm
+        self._provider = provider
+        self._cur = None
+
+    def __enter__(self):
+        self._cur = self._dbcm.__enter__()
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return self._dbcm.__exit__(exc_type, exc, tb)
+
+    def execute(self, sql_file: str, params: dict) -> int | None:
+        sql = self._provider.get(sql_file)
+        self._cur.execute(sql, params or {})
+        return getattr(self._cur, 'lastrowid', None)
 
 
 class Model:
@@ -16,7 +26,8 @@ class Model:
         self.db_config = db_config
         self.provider = provider
 
-    def select(self, sql_file: str, params: dict) -> ResultInfo:
+    def select(self, sql_file: str, params: dict) -> dict:
+
         print(f'{__name__ = }: {sql_file = }, {params = }')
 
         _sql = self.provider.get(sql_file)
@@ -25,15 +36,9 @@ class Model:
             cursor.execute(_sql, params)
             result = cursor.fetchall()
 
-        print(f'{__name__ = }: {result = }')
+        print(f'{__name__ = }: {result[0].keys() if result else 'Empty set'}')
 
-        return ResultInfo(
-            result=result,
-            status=bool(result),
-            err_message=(
-                'Ок' if result else 'Данные не получены'
-            ),
-        )
+        return result
 
-    def transaction() -> Transaction:
-        pass
+    def transaction(self) -> _Transaction:
+        return _Transaction(DBContextManager(self.db_config), self.provider)

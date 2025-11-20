@@ -5,12 +5,19 @@ import os
 from access import login_required, group_required
 from database.sql_provider import SQLProvider
 from flask import Blueprint, render_template, request
-from model import model_route
+from model import Model
 
 
 bp_query = Blueprint('bp_query', __name__, template_folder='templates', url_prefix='/query')
 
-query_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
+query_model: Model
+
+@bp_query.record
+def on_register(setup_state):
+    global query_model
+    app = setup_state.app
+    query_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
+    query_model = Model(app.config['db_config'], query_provider)
 
 
 @bp_query.route('/', methods=['GET'])
@@ -31,9 +38,6 @@ def get_category():
     if not user_input.get('prod_category'):
         return render_template('error.html', msg='Не указана категория товаров')
 
-    result_info = model_route(query_provider, 'category.sql', user_input)
+    result = query_model.select('category.sql', user_input)
 
-    if not result_info.status:
-        return render_template('error.html', msg=result_info.err_message)
-
-    return render_template('category_result.html', items=result_info.result)
+    return render_template('category_result.html', items=result)

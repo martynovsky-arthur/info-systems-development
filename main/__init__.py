@@ -10,15 +10,8 @@ from bp_report import bp_report
 from flask import Flask, render_template, session
 
 
-
 app = Flask(__name__, template_folder='templates', static_folder='../static')
 app.config['SECRET_KEY'] = '1234'
-
-
-app.register_blueprint(bp_auth)
-app.register_blueprint(bp_basket)
-app.register_blueprint(bp_query)
-app.register_blueprint(bp_report)
 
 
 with open('data/db_config.json', encoding='utf-8') as f:
@@ -35,6 +28,12 @@ with open('data/reports_config.json', 'r', encoding='utf-8') as f:
 
 with open('data/cache_config.json', 'r', encoding='utf-8') as f:
     app.config['cache'] = json.load(f)
+
+
+app.register_blueprint(bp_auth)
+app.register_blueprint(bp_basket)
+app.register_blueprint(bp_query)
+app.register_blueprint(bp_report)
 
 
 @app.route('/')
