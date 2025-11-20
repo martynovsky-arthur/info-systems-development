@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from database.select import execute_dict
 from database.transaction import Transaction
 from database.sql_provider import SQLProvider
+from database.DBcm import DBContextManager
 
 
 @dataclass
@@ -16,9 +16,16 @@ class Model:
         self.db_config = db_config
         self.provider = provider
 
-    def execute(self, sql_file: str, params: dict) -> ResultInfo:
+    def select(self, sql_file: str, params: dict) -> ResultInfo:
+        print(f'{__name__ = }: {sql_file = }, {params = }')
+
         _sql = self.provider.get(sql_file)
-        result = execute_dict(self.db_config, _sql, params)
+
+        with DBContextManager(self.db_config) as cursor:
+            cursor.execute(_sql, params)
+            result = cursor.fetchall()
+
+        print(f'{__name__ = }: {result = }')
 
         return ResultInfo(
             result=result,
@@ -28,5 +35,5 @@ class Model:
             ),
         )
 
-    def transaction():
+    def transaction() -> Transaction:
         pass
