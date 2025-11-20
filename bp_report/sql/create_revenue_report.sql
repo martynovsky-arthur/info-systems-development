@@ -1,1 +1,1 @@
-CALL create_category_revenue_report((%s), (%s));
+CALL create_category_revenue_report((%(month)s), (%(year)s));

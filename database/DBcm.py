@@ -1,26 +1,23 @@
 from pymysql import connect
+from pymysql.cursors import DictCursor
 from pymysql.err import OperationalError
 
 
 class DBContextManager:
     def __init__(self, db_connect: dict):
+        self.db_connect = db_connect
         self.conn = None
         self.cursor = None
-        self.db_connect = db_connect
 
     def __enter__(self):
         try:
-            self.conn = connect(**self.db_connect)
+            self.conn = connect(**self.db_connect, autocommit=False, cursorclass=DictCursor)
             self.cursor = self.conn.cursor()
-            self.conn.begin()
             return self.cursor
         except OperationalError as err:
-            print(err.args)
-            return None
+            raise RuntimeError(f'DB connection error: {err}')
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type:
-            print(exc_type, exc_val)
         if self.cursor:
             if exc_type:
                 self.conn.rollback()
@@ -28,4 +25,4 @@ class DBContextManager:
                 self.conn.commit()
             self.cursor.close()
             self.conn.close()
-        return True
+        return False  # не подавляем исключения

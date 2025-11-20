@@ -1,24 +1,16 @@
 from database.DBcm import DBContextManager
 from flask import current_app
 
-def select_list(_sql: str, param_list: list):
+
+def select_dict(_sql: str, params: dict):
+    print(f'{__name__ = }: {params = }')
+
     with DBContextManager(current_app.config['db_config']) as cursor:
         if cursor is None:
             raise ValueError('Не удалось подключиться')
-
-        cursor.execute(_sql, param_list)
+        cursor.execute(_sql, params)
         result = cursor.fetchall()
 
-        schema = [item[0] for item in cursor.description]
+    print(f'{__name__ = }: {result = }')
 
-    return (result, schema)
-
-
-def select_dict(_sql, user_input: dict):
-    user_list = list(user_input.values())
-    print(f'{__name__ = }: {user_list = }')
-
-    result_list, schema = select_list(_sql, user_list)
-    print(f'{__name__ = }: {schema = }')
-
-    return [dict(zip(schema, item)) for item in result_list]
+    return result

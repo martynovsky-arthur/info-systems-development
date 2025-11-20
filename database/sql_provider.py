@@ -8,4 +8,5 @@ class SQLProvider:
             self.scripts[file] = _sql
 
     def get(self, file):
+        print(f'{__name__ = }: {file = }')
         return self.scripts[file]
