@@ -11,7 +11,7 @@
             </tr>
             {% for row in items %}
             <tr>
-                {% for column in row %}
+                {% for column in row.values() %}
                     <td>{{ column }}</td>
                 {% endfor %}
             </tr>

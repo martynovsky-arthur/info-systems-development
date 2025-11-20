@@ -29,7 +29,6 @@ def post_login():
         return render_template('auth_form.html', error='Ошибка авторизации')
 
     user = result_info.result[0]
-    session['user_id'] = user[0]
-    session['user_group'] = user[1]
+    session['user_id'] = user['u_id']
+    session['user_group'] = user['role']
     return redirect(url_for('main_menu'))
-
