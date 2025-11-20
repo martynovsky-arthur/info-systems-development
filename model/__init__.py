@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from database.select import select_dict
+from database.select import execute_dict
+from database.transaction import Transaction
 from database.sql_provider import SQLProvider
 
 
@@ -10,12 +11,22 @@ class ResultInfo:
     err_message: str
 
 
-def model_route(provider: SQLProvider, sql_file_name: str, user_input: dict) -> ResultInfo:
-    err_message = ''
-    _sql = provider.get(sql_file_name)
-    result = select_dict(_sql, user_input)
-    if result:
-        return ResultInfo(result=result, status=True, err_message=err_message)
-    else:
-        err_message = 'Данные не получены'
-        return ResultInfo(result=result, status=False, err_message=err_message)
+class Model:
+    def __init__(self, db_config: dict, provider: SQLProvider):
+        self.db_config = db_config
+        self.provider = provider
+
+    def execute(self, sql_file: str, params: dict) -> ResultInfo:
+        _sql = self.provider.get(sql_file)
+        result = execute_dict(self.db_config, _sql, params)
+
+        return ResultInfo(
+            result=result,
+            status=bool(result),
+            err_message=(
+                'Ок' if result else 'Данные не получены'
+            ),
+        )
+
+    def transaction():
+        pass
