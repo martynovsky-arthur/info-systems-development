@@ -9,16 +9,24 @@ class _Transaction:
         self._cur = None
 
     def __enter__(self):
+        print(f'{__name__ = }: Start transaction.')
         self._cur = self._dbcm.__enter__()
         return self
 
     def __exit__(self, exc_type, exc, tb):
+        print(f'{__name__ = }: Stop transaction.')
         return self._dbcm.__exit__(exc_type, exc, tb)
 
     def execute(self, sql_file: str, params: dict) -> int | None:
+        print(f'{__name__ = }: {sql_file = }, {params = }')
+
         sql = self._provider.get(sql_file)
         self._cur.execute(sql, params or {})
-        return getattr(self._cur, 'lastrowid', None)
+        result = getattr(self._cur, 'lastrowid', None)
+
+        print(f'{__name__ = }: {result = }')
+
+        return result
 
 
 class Model:

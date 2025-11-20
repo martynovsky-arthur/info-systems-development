@@ -1,11 +1,12 @@
 import os
 
+from access import login_required
 from database.sql_provider import SQLProvider
 from flask import Blueprint, redirect, render_template, session, url_for
 from model import Model
 
 
-bp_basket = Blueprint('bp_basket', __name__, template_folder='templates')
+bp_basket = Blueprint('bp_basket', __name__, template_folder='templates', url_prefix='/basket')
 
 basket_model: Model
 
@@ -21,7 +22,9 @@ queries = {
     'get_all_products': 'get_all_products.sql',
 }
 
-@bp_basket.route('/order')
+
+@bp_basket.route('/')
+@login_required
 def basket_menu():
     products = basket_model.select(queries['get_all_products'], {})
     basket_count = session.get('basket', {})  # словарь {prod_id(str): amount(int)}
@@ -48,6 +51,7 @@ def basket_menu():
 
 
 @bp_basket.route('/add/<string:prod_id>', methods=['POST'])
+@login_required
 def add_to_basket(prod_id: str):
     basket = session.get('basket', {})
     basket[prod_id] = basket.get(prod_id, 0) + 1
@@ -55,14 +59,20 @@ def add_to_basket(prod_id: str):
     return redirect(url_for('bp_basket.basket_menu'))
 
 @bp_basket.route('/clear')
+@login_required
 def clear_basket():
     session['basket'] = {}
     return redirect(url_for('bp_basket.basket_menu'))
 
 
 @bp_basket.route('/save', methods=['GET'])
+@login_required
 def save_order():
-    print('Вносим заказ в бд...')
+    basket = session.get('basket', {})
 
-    session['basket'] = {}
-    return redirect(url_for('bp_basket.basket_menu'))
+    with basket_model.transaction() as tr:
+        order_id: int = tr.execute('create_order.sql', {'u_id': session['user_id']})
+        for k, v in basket.items():
+            tr.execute('create_order_line.sql', {'prod_id': k, 'l_amount': v, 'or_id': order_id})
+
+    return redirect(url_for('bp_basket.clear_basket'))
